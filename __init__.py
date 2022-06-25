@@ -1,5 +1,8 @@
 import os
 from flask import Flask
+from . import db
+from .resources import plant
+
 
 def create_app(test_config=None):
     # create and configure the app
@@ -7,6 +10,8 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY='dev',
     )
+    with app.app_context():
+        db.get_db()
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -20,5 +25,8 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    plant.api.add_resource(plant.Plant, '/plants')
+    app.register_blueprint(plant.api_bp)
 
     return app
