@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from . import db
-from .resources import plant
+from .api.v1 import plants
 
 
 def create_app(test_config=None):
@@ -26,7 +26,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    plant.api.add_resource(plant.Plant, '/plants')
-    app.register_blueprint(plant.api_bp)
+    plants.api.add_resource(plants.Plant, '/plants')
+    app.register_blueprint(plants.api_bp)
 
     return app
