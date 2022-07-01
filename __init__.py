@@ -1,6 +1,6 @@
 import os
 from flask import Flask
-from . import db
+from . import database
 from .api.v1 import plants
 
 
@@ -11,7 +11,7 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
     )
     with app.app_context():
-        db.get_db()
+        database.get_db()
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
